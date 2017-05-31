@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+<link rel="stylesheet" href="fonts/iconfont.css" />
+
+<link rel="stylesheet/less" type="text/css" href="bootstrap-3.3.7/less/bootstrap.less" />
+<link rel="stylesheet/less" type="text/css" href="main.less" />
+<script src="less.js-master/dist/less.js" type="text/javascript"></script>
+
+<script src="jquery-3.1.1.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="winHeader" class="clearfix">
+	<div id="winTitle" class="pull-left">网易云音乐</div>
+	<div id="winGroupBtn" class="pull-right">
+		<a href="javascript:sendSysMsg('close');" title="关闭" class="iconfont icon-close"></a>
+		<a href="javascript:sendSysMsg('maximize');" title="最大化" class="iconfont icon-square"></a>
+		<a href="javascript:sendSysMsg('minimize');" title="最小化" class="iconfont icon-move"></a>
+	</div>
+</div>
+<div id="winMain">
+
+	<div id="mainPanel">
+		<div id="menu">
+			<div class="panel">
+				<div class="panel-heading top"><a href="javascript:toggleMenu();" class="iconfont icon-sort"></a></div>
+				<div class="panel-body">
+					<a href="javascript:;" class="item"><i class="iconfont icon-search"></i><span>搜索</span></a>
+					<a href="javascript:;" class="item"><i class="iconfont icon-searchlist"></i><span>发现音乐</span></a>
+					<a href="javascript:;" class="item"><i class="iconfont icon-radiobox"></i><span>MV</span></a>
+				</div>
+			</div>
+			<div class="panel">
+				<div class="panel-heading">我的音乐</div>
+				<div class="panel-body">
+					<a href="javascript:;" class="item"><i class="iconfont icon-home"></i><span>本地音乐</span></a>
+					<a href="javascript:;" class="item"><i class="iconfont icon-down"></i><span>下载管理</span></a>
+				</div>
+			</div>
+			<div class="panel">
+				<div class="panel-heading">创建的歌单</div>
+				<div class="panel-body">
+					<a href="javascript:;" class="item"><i class="iconfont icon-like"></i><span>我喜欢的音乐</span></a>
+				</div>
+			</div>
+			<div class="personal">
+				<img src="images/avatar.jpg" />
+				<span>未登录</span>
+				<a><i class="iconfont icon-comment"></i></a>
+				<a><i class="iconfont icon-settings"></i></a>
+			</div>
+		</div>
+		<div id="main">
+
+		</div>
+	</div>
+	<div id="palyerBar">
+		<div class="avatar">
+			<img src="images/music.jpg" />
+			<a class="mask">歌词</a>
+		</div>
+		<div class="operate">
+			<a><i class="iconfont icon-like"></i></a>
+			<a><i class="iconfont icon-all"></i></a>
+			<a><i class="iconfont icon-notification"></i></a>
+			<a><i class="iconfont icon-list"></i></a>
+
+		</div>
+		<div class="control">
+			<div class="icons-btn">
+			<a class="prev"><i class="iconfont icon-fold"></i></a>
+			<a class="play"><i class="iconfont icon-stop"></i></a>
+			<a class="next"><i class="iconfont icon-unfold"></i></a>
+			</div>
+			<div class="bar">
+				<div class="label">水手</div>
+				<div class="time">
+					<span>00:00</span>
+					<span>00:00</span>
+				</div>
+				<div class="progress">
+				  <div class="progress-bar">
+				    <a></a>
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<script type="text/javascript">
+$(window)
+.on('blur',function(){
+	$('html').addClass('blur')
+})
+.on('focus',function(){
+	$('html').removeClass('blur')
+})
+$(document).on('click','#menu .item', function(){
+	$('#menu .item').removeClass('active');
+	$(this).addClass('active');
+})
+
+
+
+
+
+
+function toggleMenu() {
+	$('#menu').toggleClass('simple');
+}
+
+
+function sendSysMsg(command) {
+	command && ipcRenderer.sendSync('appMsg', command)
+	if(command === 'maximize'){
+		$('#winGroupBtn .icon-square')
+		.removeClass('icon-square')
+		.addClass('icon-round')
+		.attr({
+			'title':'恢复',
+			'href':'javascript:sendSysMsg(\'unmaximize\');'
+		})
+	}else if(command === 'unmaximize'){
+		$('#winGroupBtn .icon-round')
+		.removeClass('icon-round')
+		.addClass('icon-square')
+		.attr({
+			'title':'最大化',
+			'href':'javascript:sendSysMsg(\'maximize\');'
+		})
+	}
+}
+
+
+const {ipcRenderer} = require('electron')
+
+</script>
+</body>
+</html>
